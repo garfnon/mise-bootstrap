@@ -1,0 +1,55 @@
+# Linux already ships the GNU userland; everything below is macOS + Homebrew only.
+if [[ "$OSTYPE" != darwin* ]]; then
+  alias ll='ls -lAFhrtv --color=auto --group-directories-first'
+else
+
+alias ll='gls -lAFhrtv --color=auto --group-directories-first'
+
+# GNU coreutils/findutils/etc: prepend each package's "gnubin" dir so the
+# unprefixed command name (cat, cp, sort, find, xargs, sed, grep, awk,
+# which, indent, patch, make, ...) resolves to the GNU version instead of
+# the BSD/macOS one. The original g-prefixed binaries (gls, gsed, ggrep,
+# ...) stay available too, since gnubin is only added, not swapped in.
+export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:/opt/homebrew/opt/findutils/libexec/gnubin:/opt/homebrew/opt/gnu-sed/libexec/gnubin:/opt/homebrew/opt/grep/libexec/gnubin:/opt/homebrew/opt/gawk/libexec/gnubin:/opt/homebrew/opt/gnu-tar/libexec/gnubin:/opt/homebrew/opt/gnu-which/libexec/gnubin:/opt/homebrew/opt/gnu-indent/libexec/gnubin:/opt/homebrew/opt/gpatch/libexec/gnubin:/opt/homebrew/opt/make/libexec/gnubin:$PATH"
+
+# zsh has its own `which` builtin, which takes precedence over PATH
+# lookups, so the gnubin entry above alone doesn't make plain `which`
+# use the GNU version - it needs an explicit alias.
+alias which='gwhich'
+
+# ed and m4: Homebrew keeps these keg-only because macOS already ships a
+# version, so they're never linked into PATH automatically.
+alias ed='/opt/homebrew/opt/ed/bin/ged'
+alias m4='/opt/homebrew/opt/m4/bin/m4'
+
+# GNU binutils: also keg-only (macOS/Xcode's own ar, nm, strip, objdump,
+# etc. are needed for native Mach-O binaries/codesigning, and GNU binutils
+# mostly can't read Mach-O anyway), so only the g-prefixed names are
+# aliased here rather than overriding ar/nm/strip/objdump/etc. directly.
+alias gaddr2line='/opt/homebrew/opt/binutils/bin/gaddr2line'
+alias gar='/opt/homebrew/opt/binutils/bin/gar'
+alias "gc++filt"='/opt/homebrew/opt/binutils/bin/gc++filt'
+alias gcoffdump='/opt/homebrew/opt/binutils/bin/gcoffdump'
+alias gdlltool='/opt/homebrew/opt/binutils/bin/gdlltool'
+alias gdllwrap='/opt/homebrew/opt/binutils/bin/gdllwrap'
+alias gelfedit='/opt/homebrew/opt/binutils/bin/gelfedit'
+alias gnm='/opt/homebrew/opt/binutils/bin/gnm'
+alias gobjcopy='/opt/homebrew/opt/binutils/bin/gobjcopy'
+alias gobjdump='/opt/homebrew/opt/binutils/bin/gobjdump'
+alias granlib='/opt/homebrew/opt/binutils/bin/granlib'
+alias greadelf='/opt/homebrew/opt/binutils/bin/greadelf'
+alias gsize='/opt/homebrew/opt/binutils/bin/gsize'
+alias gsrconv='/opt/homebrew/opt/binutils/bin/gsrconv'
+alias gstrings='/opt/homebrew/opt/binutils/bin/gstrings'
+alias gstrip='/opt/homebrew/opt/binutils/bin/gstrip'
+alias gsysdump='/opt/homebrew/opt/binutils/bin/gsysdump'
+alias gwindmc='/opt/homebrew/opt/binutils/bin/gwindmc'
+alias gwindres='/opt/homebrew/opt/binutils/bin/gwindres'
+
+# diffutils (diff, diff3, cmp, sdiff), ed's sibling gzip suite (gzip,
+# gunzip, zcat, ...), wget, nano, screen, less, wdiff, and watch are all
+# already GNU and already resolve correctly with no alias needed, since
+# Homebrew installs them unprefixed into /opt/homebrew/bin, which already
+# sits ahead of /usr/bin on this system's PATH.
+
+fi

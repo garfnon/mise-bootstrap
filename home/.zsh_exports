@@ -1,0 +1,20 @@
+# Exports to use with Zsh
+
+# Manually set language
+export LANG=en_US.UTF-8
+
+# Preferred editor vim > *
+export EDITOR=nvim
+
+# Add Go bin to path
+export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
+
+# Add kitty user local bin folder to path
+export PATH=$HOME/.local/kitty.app/bin:$PATH
+
+# If $HOME/.zsh_custom_exports folder exists, source the files therein
+# This is useful if you want to setup some custom exports, because writing to _this file_ 
+# will be overridden next time you run the dots
+if [[ -d "$HOME/.zsh_custom_exports" ]]; then
+  source <(cat $HOME/.zsh_custom_exports/*)
+fi

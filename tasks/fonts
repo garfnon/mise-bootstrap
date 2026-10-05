@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+#MISE description="Install Nerd Fonts into the user font directory"
+#MISE depends=["brew"]
+source "$(dirname "$0")/lib.sh"
+
+NERD_VERSION="v3.4.0"
+FONTS=(FiraCode Hasklig VictorMono CascadiaCode)
+if is_mac; then DEST="$HOME/Library/Fonts"; else DEST="$HOME/.local/share/fonts"; fi
+BASE="https://github.com/ryanoasis/nerd-fonts/releases/download/$NERD_VERSION"
+
+mkdir -p "$DEST"
+for font in "${FONTS[@]}"; do
+  if [ -d "$DEST/$font" ]; then
+    skip "$font (already installed)"
+    continue
+  fi
+  tmp="$(mktemp -d)"
+  info "downloading $font"
+  if curl -fsSL "$BASE/$font.zip" -o "$tmp/$font.zip"; then
+    unzip -qq -o "$tmp/$font.zip" -d "$DEST/$font" -x '*.md' 'LICENSE*'
+    ok "$font"
+  else
+    warn "$font download failed"
+  fi
+  rm -rf "$tmp"
+done
+
+# Linux apps only see new fonts after the fontconfig cache is rebuilt
+if is_linux && have fc-cache; then fc-cache -f "$DEST" && ok "font cache rebuilt"; fi
+exit 0

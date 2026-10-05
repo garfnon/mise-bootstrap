@@ -1,0 +1,16 @@
+# Bootstrap orchestrator. Run `mise tasks` to list, `mise run bootstrap` for all.
+#
+# This repo's own mise.toml carries only TASKS. The global tool list it installs
+# lives at home/.config/mise/config.toml and is symlinked to ~/.config/mise/config.toml
+# by the `link` task.
+
+min_version = "2025.1.0"
+
+[env]
+BOOTSTRAP_ROOT = "{{ config_root }}"
+
+[task_config]
+includes = ["tasks"]
+
+[settings]
+experimental = true

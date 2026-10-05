@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#MISE description="Install every tool in the global mise config"
+#MISE depends=["link"]
+source "$(dirname "$0")/lib.sh"
+
+info "Installing mise tools from ~/.config/mise/config.toml"
+mise install --yes
+ok "tools installed"
+mise ls --current --global 2>/dev/null || mise ls

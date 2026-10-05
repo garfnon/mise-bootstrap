@@ -1,0 +1,27 @@
+# Debian/Ubuntu counterpart of the Brewfile, applied by `mise run brew` on Linux.
+# One package per line. Linux already ships the GNU userland, so none of the
+# Brewfile's GNU section is needed here. Starship is not packaged on older
+# Debian/Ubuntu releases; tasks/brew installs it with its own installer.
+
+# shell & basics
+zsh
+git
+curl
+unzip
+ca-certificates
+build-essential   # nvim-treesitter compiles parsers
+
+# fonts -- fc-cache for tasks/fonts
+fontconfig
+
+# misc CLI
+tree
+wget
+
+# ssh & gpg
+openssh-client
+gnupg
+
+# hardware / daemons
+docker.io
+yubikey-manager

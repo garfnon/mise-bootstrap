@@ -1,0 +1,130 @@
+# Functions for use with Zsh
+
+
+# Useful for extracting files via CLI
+extract () {
+  if [ -f "$1" ]; then
+    case "$1" in
+      *.tar.bz2)      tar xjf "$1"                            ;;
+      *.tar.gz)       tar xzf "$1"                            ;;
+      *.bz2)          bunzip2 "$1"                            ;;
+      *.rar)          gunzip "$1"                             ;;
+      *.gz)           tar xf "$1"                             ;;
+      *.tbz2)         tar xjf "$1"                            ;;
+      *.tgz)          tar xzf "$1"                            ;;
+      *.zip)          unzip "$1"                              ;;
+      *.Z)            uncompress "$1"                         ;;
+      *.7z)           7z x "$1"                               ;;
+      *)    echo "'$1' cannot be extracted via extract()"     ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+no_finalizers () {
+  for ns in $(kubectl get ns --no-headers | awk '{print $1}'); do
+    k get ns $ns -o json | jq '.spec.finalizers = []' | k replace --raw "/api/v1/namespaces/$ns/finalize" -f -;
+  done
+}
+
+kcu () {
+  has_aws=$(command -v aws)
+  has_jq=$(command -v jq)
+
+  if [ -z "$has_aws" ] || [ -z "$has_jq" ]; then
+    echo "Missing dependencies, install aws cli and jq"
+  else
+    for cluster in $(aws_clusters); do
+      aws eks update-kubeconfig --name $cluster;
+    done
+  fi
+}
+
+kgpcv () {
+  if [ $# -eq 0 ]; then
+    echo "Requires a namespace arg"
+    echo "Usage: kgpcv <namespace>"
+    exit 1
+  fi
+
+  namespace=$1
+
+  kubectl get pods -n $namespace \
+    -o jsonpath="{.items[*].spec.containers[*].image}" | \
+    tr -s '[[:space:]]' '\n' | sort | uniq
+}
+
+gc_children () {
+  message=$1
+
+  if [ -z "$message" ]; then
+    printf "Error: message required"
+  else
+    for child in $(ls -d */); do
+      pushd "$child" &> /dev/null
+        git commit --all --message $message || true
+        git push || true
+      popd
+    done
+  fi
+}
+
+add_badges () {
+  for i in $(ls -d */); do
+    pushd "$i" &> /dev/null
+      repo=$(grv | awk 'NR==1{print substr($2, 1, length($2)-4)}')
+      mv README.md README.md.bak
+      echo -n $'[![pipeline status]'"($repo/badges/main/pipeline.svg)]($repo/-/commits/main)\n\n" | cat - README.md.bak > README.md
+    popd &> /dev/null
+  done
+}
+
+gi () {
+  dbus-send --print-reply --dest=org.gnome.SessionManager /org/gnome/SessionManager org.gnome.SessionManager.GetInhibitors
+}
+
+di () {
+  id=$1
+  dbus-send --print-reply --dest=org.gnome.SessionManager /org/gnome/SessionManager/Inhibitor"$id" org.gnome.SessionManager.Inhibitor.GetAppId
+  dbus-send --print-reply --dest=org.gnome.SessionManager /org/gnome/SessionManager/Inhibitor"$id" org.gnome.SessionManager.Inhibitor.GetReason
+}
+
+copy_secret () {
+  if [ $# -lt 3 ]; then
+    echo "Usage: copy_secret <source_namespace> <target_namespace> <secret_name>"
+    exit 1
+  fi
+
+  source_ns=$1
+  target_ns=$2
+  secret_name=$3
+
+  echo "Copying $secret_name from $source_ns to $target_ns"
+  
+  kubectl get secret $secret_name --namespace=$source_ns -o yaml | sed "s/namespace: .*/namespace: $target_ns/" | kubectl apply -f -
+}
+
+# If $HOME/.zsh_custom_funcs folder exists, source the files therein
+# This is useful if you want to setup some custom funcs, because writing to _this file_ 
+# will be overridden next time you run the dots
+if [[ -d "$HOME/.zsh_custom_funcs" ]]; then
+  source $HOME/.zsh_custom_funcs/*
+fi
+
+set_2f_bg () {
+  echo "  Setting BG"
+
+  local BG_DIR
+  local RANDOM_BG
+
+  BG_DIR="${HOME}/backgrounds"
+  RANDOM_BG=$(find "$BG_DIR" -type f | shuf -n 1)
+
+  gsettings set org.gnome.desktop.background picture-uri-dark "file://$RANDOM_BG"
+  gsettings set org.gnome.desktop.background picture-uri "file://$RANDOM_BG"
+}
+
+if [[ -d "$HOME/.zsh_custom_functions" ]]; then
+  source <(cat $HOME/.zsh_custom_functions/*)
+fi

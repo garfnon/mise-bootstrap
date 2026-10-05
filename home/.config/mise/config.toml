@@ -1,0 +1,44 @@
+# Global mise config. Managed by ~/git/bootstrap -- edit there, then `mise run link`.
+#
+# Everything here is installed by mise's own backends (aqua/ubi/github/pypi/...),
+# NOT by Homebrew. Things mise cannot provide -- the GNU userland, docker, ykman,
+# casks -- live in the Brewfile alongside this repo.
+
+[tools]
+"7zip" = "26.03"
+bitwarden = "2026.8.0"
+cloc = { version = "2.10", bin = "cloc", platforms = { linux-arm64 = { asset_pattern = "cloc-{{ version }}.pl" }, linux-x64 = { asset_pattern = "cloc-{{ version }}.pl" }, macos-arm64 = { asset_pattern = "cloc-{{ version }}.pl" }, macos-x64 = { asset_pattern = "cloc-{{ version }}.pl" }, windows-x64 = { asset_pattern = "cloc-{{ version }}.exe" } } }
+direnv = "2.37.1"
+flux2 = "2.9.5"
+fzf = "0.74.3"
+"github:boz/kail" = "0.17.4"
+helm = "4.3.0"
+istioctl = "1.31.0"
+jq = "1.8.2"
+k9s = "0.51.0"
+kind = "0.33.0"
+kubectl = "1.37.0"
+kubelogin = "1.36.4"
+kustomize = "5.8.1"
+minikube = "1.39.0"
+neovim = "0.12.5"
+node = "26.8.2"
+pre-commit = "4.6.2"
+sops = "3.13.3"
+terraform = "1.16.2"
+terragrunt = "1.1.4"
+
+# Migrated off Homebrew. Verified installing on darwin/arm64 -- a registry entry
+# alone is not proof of platform support, so confirm before adding one here.
+tmux = "3.7c"       # aqua:tmux/tmux-builds
+uv = "0.12.13"      # aqua:astral-sh/uv -- also what makes the pypi backend work
+yamllint = "1.38.0" # pypi:yamllint (needs uv above)
+
+# NOT migrated, deliberately:
+#   upx       -> the aqua package ships linux and windows/amd64 only; there is no
+#                darwin/arm64 build. Stays on brew, which compiles it.
+#   make      -> only backend is conda:make, which drags a conda toolchain in for
+#                GNU make. Left on brew. Flip it here if you'd rather pay that cost.
+#   coreutils -> mise's entry is aqua:uutils/coreutils, the Rust rewrite. Flag
+#                compatibility differs from GNU coreutils, which your shell
+#                functions assume. Left on brew.

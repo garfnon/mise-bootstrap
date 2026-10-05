@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+#MISE description="Install oh-my-zsh and plugins into ~/.omz (prompt is Starship, installed by the brew task)"
+#MISE depends=["brew"]
+source "$(dirname "$0")/lib.sh"
+
+OMZ="$HOME/.omz"
+
+clone_or_pull() {
+  local url="$1" dest="$2" name="$3"
+  if [ -d "$dest/.git" ]; then
+    git -C "$dest" pull --quiet --ff-only && ok "$name (updated)"
+  else
+    backup "$dest"
+    git clone --depth 1 --quiet "$url" "$dest" && ok "$name (cloned)"
+  fi
+}
+
+info "oh-my-zsh"
+clone_or_pull https://github.com/ohmyzsh/ohmyzsh.git "$OMZ" oh-my-zsh
+
+info "plugins"
+clone_or_pull https://github.com/zsh-users/zsh-autosuggestions.git      "$OMZ/custom/plugins/zsh-autosuggestions"      zsh-autosuggestions
+clone_or_pull https://github.com/zsh-users/zsh-syntax-highlighting.git  "$OMZ/custom/plugins/zsh-syntax-highlighting"  zsh-syntax-highlighting
+clone_or_pull https://github.com/zsh-users/zsh-completions.git          "$OMZ/custom/plugins/zsh-completions"          zsh-completions
+
+info "kitty themes"
+clone_or_pull https://github.com/dexpota/kitty-themes.git "$HOME/.config/kitty/kitty-themes" kitty-themes
+
+mkdir -p "$OMZ/custom/plugins/extra-completions" "$OMZ/custom/plugins/custom-completions"
+ok "completion dirs ready"
+
+# macOS already defaults to zsh; Debian/Ubuntu default to bash
+info "login shell"
+zsh_path="$(command -v zsh || true)"
+if have getent; then current="$(getent passwd "$(id -un)" | cut -d: -f7)"
+else current="$(dscl . -read "$HOME" UserShell 2>/dev/null | awk '{print $2}')"; fi
+if [ -z "$zsh_path" ]; then
+  warn "zsh not installed -- run 'mise run brew' first"
+elif [ "$(basename "${current:-}")" = zsh ]; then
+  skip "already zsh"
+# via sudo: plain chsh reads the password from stdin, which is the script under curl | bash
+elif as_root chsh -s "$zsh_path" "$(id -un)"; then
+  ok "login shell -> $zsh_path (takes effect at next login)"
+else
+  warn "chsh failed -- run: chsh -s $zsh_path"
+fi

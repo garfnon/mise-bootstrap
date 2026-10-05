@@ -1,0 +1,31 @@
+[apply]
+	whitespace = fix
+[color]
+	ui = auto
+[core]
+	excludesfile = ~/.gitignore
+	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+	trustctime = false
+[credential]
+	helper = store
+[user]
+	name = Ran Rao
+[diff]
+	tool = meld
+	colorMoved = zebra
+[difftool]
+	prompt = false
+[difftool "meld"]
+	cmd = meld "$LOCAL" "$REMOTE"
+[merge]
+	tool = meld
+[mergetool]
+	prompt = false
+[pull]
+	rebase = true
+[fetch]
+	prune = true
+[mergetool "meld"]
+	cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
+[init]
+	defaultBranch = main

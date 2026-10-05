@@ -1,0 +1,282 @@
+#"$schema" = 'https://starship.rs/config-schema.json'
+#
+## Layout mirrors the old p10k setup: dir + git, newline, prompt char on the left;
+## status/duration/jobs/cloud context on the right. Only modules listed here render,
+## so language-version modules (node, go, python, ...) stay out of the prompt.
+#format = """$directory$git_branch$git_state$git_status$line_break$character"""
+#right_format = """$status$cmd_duration$jobs$direnv$kubernetes$aws$gcloud$azure$terraform"""
+#
+#command_timeout = 1000
+#
+#[character]
+#success_symbol = '[❯](bold green)'
+#error_symbol = '[❯](bold red)'
+#
+#[directory]
+#truncation_length = 4
+#truncate_to_repo = false
+#format = '[ $path]($style)[$read_only]($read_only_style) '
+#read_only = ' 󰌾'
+#
+#[status]
+#disabled = false
+#format = '[$symbol$status]($style) '
+#
+#[cmd_duration]
+#min_time = 3_000
+#format = '[$duration]($style) '
+#
+#[direnv]
+#disabled = false
+#format = '[$loaded]($style) '
+
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+[](color_orange)\
+$os\
+$username\
+[](bg:color_yellow fg:color_orange)\
+$directory\
+[](fg:color_yellow bg:color_aqua)\
+$git_branch\
+$git_status\
+[](fg:color_aqua bg:color_blue)\
+$c\
+$cpp\
+$rust\
+$golang\
+$nodejs\
+$bun\
+$php\
+$java\
+$kotlin\
+$haskell\
+$python\
+[](fg:color_blue bg:color_bg3)\
+$docker_context\
+$conda\
+$pixi\
+[](fg:color_bg3 bg:color_bg1)\
+$time\
+[ ](fg:color_bg1)\
+$fill\
+$kubernetes\
+${env_var.AWSP_LABEL}\
+$line_break$character"""
+
+palette = 'solarized_dark'
+
+# First line, right-aligned via $fill: kube context (kubie's own prompt is disabled
+# in ~/.kube/kubie.yaml), then the AWS profile picked with `awsp`.
+
+# Solarized Dark, same slot names as the gruvbox preset so every module picks it up.
+# Hex values match ~/.config/eza/theme.yml.
+[palettes.solarized_dark]
+color_fg0 = '#fdf6e3'     # base3 - text on coloured segments
+color_bg1 = '#073642'     # base02
+color_bg3 = '#586e75'     # base01
+color_blue = '#268bd2'
+color_aqua = '#2aa198'    # solarized cyan
+color_green = '#859900'
+color_orange = '#cb4b16'
+color_purple = '#6c71c4'  # solarized violet
+color_red = '#dc322f'
+color_yellow = '#b58900'
+
+[palettes.gruvbox_dark]
+color_fg0 = '#fbf1c7'
+color_bg1 = '#3c3836'
+color_bg3 = '#665c54'
+color_blue = '#458588'
+color_aqua = '#689d6a'
+color_green = '#98971a'
+color_orange = '#d65d0e'
+color_purple = '#b16286'
+color_red = '#cc241d'
+color_yellow = '#d79921'
+
+[os]
+disabled = false
+style = "bg:color_orange fg:color_fg0"
+
+[os.symbols]
+Windows = "󰍲"
+Ubuntu = "󰕈"
+SUSE = ""
+Raspbian = "󰐿"
+Mint = "󰣭"
+Macos = "󰀵"
+Manjaro = ""
+Linux = "󰌽"
+Gentoo = "󰣨"
+Fedora = "󰣛"
+Alpine = ""
+Amazon = ""
+Android = ""
+AOSC = ""
+Arch = "󰣇"
+Artix = "󰣇"
+EndeavourOS = ""
+CentOS = ""
+Debian = "󰣚"
+Redhat = "󱄛"
+RedHatEnterprise = "󱄛"
+Pop = ""
+
+[username]
+show_always = true
+style_user = "bg:color_orange fg:color_fg0"
+style_root = "bg:color_orange fg:color_fg0"
+format = '[ $user ]($style)'
+
+[directory]
+style = "fg:color_fg0 bg:color_yellow"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = "󰝚 "
+"Pictures" = " "
+"Developer" = "󰲋 "
+
+[git_branch]
+symbol = ""
+style = "bg:color_aqua"
+format = '[[ $symbol $branch ](fg:color_fg0 bg:color_aqua)]($style)'
+
+[git_status]
+style = "bg:color_aqua"
+format = '[[($all_status$ahead_behind )](fg:color_fg0 bg:color_aqua)]($style)'
+
+[nodejs]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+[bun]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+[c]
+symbol = " "
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+[cpp]
+symbol = " "
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+[rust]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+[golang]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+[php]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+[java]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+[kotlin]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+[haskell]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+[python]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+[docker_context]
+symbol = ""
+style = "bg:color_bg3"
+format = '[[ $symbol( $context) ](fg:color_fg0 bg:color_bg3)]($style)'
+
+[conda]
+style = "bg:color_bg3"
+format = '[[ $symbol( $environment) ](fg:color_fg0 bg:color_bg3)]($style)'
+
+[pixi]
+style = "bg:color_bg3"
+format = '[[ $symbol( $version)( $environment) ](fg:color_fg0 bg:color_bg3)]($style)'
+
+[time]
+disabled = false
+time_format = "%R"
+style = "bg:color_bg1"
+format = '[[  $time ](fg:color_fg0 bg:color_bg1)]($style)'
+
+[line_break]
+disabled = false
+
+[character]
+disabled = false
+success_symbol = '[](bold fg:color_green)'
+error_symbol = '[](bold fg:color_red)'
+vimcmd_symbol = '[](bold fg:color_green)'
+vimcmd_replace_one_symbol = '[](bold fg:color_purple)'
+vimcmd_replace_symbol = '[](bold fg:color_purple)'
+vimcmd_visual_symbol = '[](bold fg:color_yellow)'
+
+# Kube context is always shown (Starship can't do p10k's show-on-typing-kubectl).
+# Context names embed the Odyssey stack name; show just the stack and colour by risk.
+# First matching entry wins.
+[kubernetes]
+disabled = false
+symbol = '󱃾 '
+# Coloured icon, no background, one space before the text.
+# The context text keeps the per-context risk style below.
+format = '[󱃾 ](bold fg:color_blue)[$context( \($namespace\))]($style) '
+
+[[kubernetes.contexts]]  # production — any auth level
+context_pattern = '.*?(?P<stack>[agz](?:us|uk|nt)g?[ecwns]\d-(?:com|il2|il4|il5|frm|frh|rc|rh)-p-[\w-]+?)-main.*'
+context_alias = 'PROD $stack'
+style = 'bold white bg:red'
+
+[[kubernetes.contexts]]  # restricted auth level, non-prod
+context_pattern = '.*?(?P<stack>[agz](?:us|uk|nt)g?[ecwns]\d-(?:il4|il5|frh|rh)-[dsv]-[\w-]+?)-main.*'
+context_alias = '$stack'
+style = 'bold yellow'
+
+[[kubernetes.contexts]]  # non-stack contexts that still look like prod
+context_pattern = '.*(?:^|[-_/])(?:prd|prod)(?:[-_/]|$).*'
+style = 'bold white bg:red'
+
+[[kubernetes.contexts]]  # everything else that looks like a stack
+context_pattern = '.*?(?P<stack>[agz](?:us|uk|nt)g?[ecwns]\d-(?:com|il2|il4|il5|frm|frh|rc|rh)-[dsvp]-[\w-]+?)-main.*'
+context_alias = '$stack'
+style = 'cyan'
+
+[aws]
+format = '[$symbol($profile )(\($region\) )]($style)'
+
+[azure]
+disabled = false
+
+[env_var.AWSP_LABEL]
+variable = "AWSP_LABEL"
+format = '[ ](bold fg:color_orange)[$env_value]($style) '
+style = "bold fg:color_orange"
+
+[fill]
+symbol = " "

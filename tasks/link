@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+#MISE description="Symlink every file under home/ into $HOME"
+source "$(dirname "$0")/lib.sh"
+
+info "Linking dotfiles from $HOME_SRC"
+
+linked=0 already=0
+while IFS= read -r -d '' src; do
+  rel="${src#"$HOME_SRC"/}"
+  dst="$HOME/$rel"
+
+  if [ -L "$dst" ] && [ "$(readlink "$dst")" = "$src" ]; then
+    already=$((already + 1))
+    continue
+  fi
+
+  mkdir -p "$(dirname "$dst")"
+  backup "$dst"
+  ln -s "$src" "$dst"
+  ok "$rel"
+  linked=$((linked + 1))
+done < <(find "$HOME_SRC" -type f -not -name '.DS_Store' -print0)
+
+info "$linked linked, $already already current"
+[ -d "$BACKUP_DIR" ] && info "replaced files preserved in ${BACKUP_DIR/#$HOME/\~}"
+exit 0

@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+#MISE description="Verify the bootstrap: links, tools, brew drift"
+source "$(dirname "$0")/lib.sh"
+
+fail=0
+
+info "Dotfile links"
+while IFS= read -r -d '' src; do
+  rel="${src#"$HOME_SRC"/}"; dst="$HOME/$rel"
+  if [ -L "$dst" ] && [ "$(readlink "$dst")" = "$src" ]; then
+    :
+  elif [ -e "$dst" ]; then
+    warn "$rel exists but is not linked to this repo"; fail=1
+  else
+    warn "$rel missing"; fail=1
+  fi
+done < <(find "$HOME_SRC" -type f -not -name '.DS_Store' -print0)
+[ "$fail" -eq 0 ] && ok "all $(find "$HOME_SRC" -type f -not -name .DS_Store | wc -l | tr -d ' ') files linked"
+
+info "mise tools"
+missing="$(mise ls --missing 2>/dev/null | wc -l | tr -d ' ')"
+[ "$missing" = "0" ] && ok "no missing tools" || { warn "$missing tools not installed"; fail=1; }
+
+info "Homebrew drift"
+if have brew; then
+  d=0
+  while read -r p; do warn "$p installed, not in Brewfile"; d=1; done < <(comm -13 \
+    <(grep -oE '^brew "[^"]+"' "$ROOT/Brewfile" | cut -d'"' -f2 | sort) <(brew leaves | sort))
+  while read -r p; do warn "$p in Brewfile, not installed"; d=1; done < <(comm -23 \
+    <(grep -oE '^brew "[^"]+"' "$ROOT/Brewfile" | cut -d'"' -f2 | sort) <(brew leaves | sort))
+  [ "$d" -eq 0 ] && ok "Brewfile matches installed leaves"
+fi
+
+info "Shell"
+[ "$(readlink "$HOME/.zshrc")" = "$HOME_SRC/.zshrc" ] && ok ".zshrc linked" || warn ".zshrc not linked"
+[ -d "$HOME/.omz" ] && ok "oh-my-zsh present" || warn "~/.omz missing"
+grep -q 'mise activate' "$HOME/.zsh_custom_exports/mise" 2>/dev/null && ok "mise activation wired" || warn "mise not activated in shell"
+
+exit "$fail"

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#MISE description="Sync Neovim plugins from the committed lazy-lock.json"
+#MISE depends=["link", "tools"]
+source "$(dirname "$0")/lib.sh"
+
+# `mise run bootstrap` resolves PATH before `link` puts the global config in
+# place, so on a fresh machine tools installed this run aren't on it yet.
+eval "$(mise env -s bash)"
+
+have nvim || die "nvim not on PATH -- run 'mise run tools' first"
+
+info "nvim $(nvim --version | head -1 | awk '{print $2}')"
+info "Restoring plugins from lazy-lock.json"
+nvim --headless "+Lazy! restore" +qa
+ok "plugins restored"

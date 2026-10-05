@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#MISE description="Run the full bootstrap: brew, tools, dotfiles, zsh, nvim, fonts"
+#MISE depends=["brew", "link", "tools", "zsh", "nvim", "fonts"]
+source "$(dirname "$0")/lib.sh"
+
+info "Bootstrap complete."
+echo
+echo "  Next:"
+echo "    exec zsh              # reload the shell"
+echo "    mise run doctor       # verify"
+echo

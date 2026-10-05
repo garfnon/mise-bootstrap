@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#MISE description="Regenerate the Brewfile from what is actually installed"
+source "$(dirname "$0")/lib.sh"
+
+have brew || die "brew not found"
+
+# Dotfiles need no snapshot: home/ is symlinked into $HOME, so edits to
+# ~/.zshrc are edits to this repo. Only the package lists can drift.
+info "Rebuilding Brewfile from installed leaves + casks"
+{
+  sed -n '1,/^# Regenerate/p' "$ROOT/Brewfile"
+  echo
+  brew leaves | sed 's/^/brew "/; s/$/"/'
+  echo
+  brew list --cask | sed 's/^/cask "/; s/$/"/'
+} > "$ROOT/Brewfile.new"
+mv "$ROOT/Brewfile.new" "$ROOT/Brewfile"
+ok "Brewfile rewritten -- review the diff, the section comments were dropped"
+git -C "$ROOT" diff --stat -- Brewfile

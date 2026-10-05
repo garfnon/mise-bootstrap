@@ -1,0 +1,34 @@
+# Ported from ~/.config/kitty/kitty.conf
+
+# --- Font ---
+font-family = FiraCode Nerd Font Mono
+# Trying JetBrains Mono: it is Ghostty's bundled default, so no font-family is needed
+font-size = 14
+# Nerd Font icons from the non-Mono font so they render full size (kitty symbol_map)
+# font-codepoint-map = U+E000-U+F8FF,U+F0000-U+F1AFF=FiraCode Nerd Font
+# Ligatures are on by default (kitty: disable_ligatures never)
+
+# --- Theme (kitty current-theme.conf: Adwaita darker) ---
+theme = adwaita-darker
+background-opacity = 1
+
+# --- Clipboard ---
+copy-on-select = clipboard
+clipboard-read = allow
+clipboard-write = allow
+clipboard-trim-trailing-spaces = true
+
+# --- Window ---
+window-padding-x = 10
+window-padding-y = 10
+window-save-state = always
+
+# ~100k lines; Ghostty sizes scrollback in bytes, not lines
+scrollback-limit = 100000000
+
+# --- Bell: no sound ---
+bell-features = no-audio,no-system
+
+# --- Keybinds ---
+# kitty ctrl+f opened fzf over scrollback; closest native equivalent is search
+keybind = ctrl+f=start_search

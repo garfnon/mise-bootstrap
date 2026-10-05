@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+#MISE description="Install system packages: the Brewfile on macOS, the Aptfile on Debian/Ubuntu"
+source "$(dirname "$0")/lib.sh"
+
+if is_linux; then
+  have apt-get || die "only Debian/Ubuntu (apt) is supported on Linux"
+  info "apt packages from Aptfile"
+  mapfile -t pkgs < <(sed 's/#.*//' "$ROOT/Aptfile" | awk 'NF {print $1}')
+  as_root apt-get update -qq
+  as_root env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq "${pkgs[@]}"
+  ok "${#pkgs[@]} packages installed"
+
+  if have starship; then
+    skip "starship (already installed)"
+  else
+    info "starship"
+    mkdir -p "$HOME/.local/bin"
+    curl -fsSL https://starship.rs/install.sh | sh -s -- --yes --bin-dir "$HOME/.local/bin" >/dev/null
+    ok "starship -> ~/.local/bin"
+  fi
+  exit 0
+fi
+
+if ! have brew; then
+  info "Installing Homebrew"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+info "brew bundle"
+brew bundle --file="$ROOT/Brewfile" --no-lock
+ok "Brewfile applied"
+
+info "Drift check (installed leaves not in Brewfile)"
+comm -13 \
+  <(grep -oE '^brew "[^"]+"' "$ROOT/Brewfile" | cut -d'"' -f2 | sort) \
+  <(brew leaves | sort) | while read -r p; do warn "$p installed but not in Brewfile"; done
+exit 0
