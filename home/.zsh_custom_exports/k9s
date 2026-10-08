@@ -1,0 +1,3 @@
+# k9s defaults to ~/.config/k9s (Linux) or ~/Library/Application Support/k9s (macOS);
+# keep config + skins in ~/.k9s on both.
+export K9S_CONFIG_DIR="$HOME/.k9s"

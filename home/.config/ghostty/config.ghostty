@@ -3,13 +3,14 @@
 # --- Font ---
 font-family = FiraCode Nerd Font Mono
 # Trying JetBrains Mono: it is Ghostty's bundled default, so no font-family is needed
-font-size = 14
+font-size = 12
 # Nerd Font icons from the non-Mono font so they render full size (kitty symbol_map)
 # font-codepoint-map = U+E000-U+F8FF,U+F0000-U+F1AFF=FiraCode Nerd Font
 # Ligatures are on by default (kitty: disable_ligatures never)
 
-# --- Theme (kitty current-theme.conf: Adwaita darker) ---
-theme = adwaita-darker
+# --- Theme: Solarized Dark (matches eza, starship, nvim, k9s) ---
+theme = iTerm2 Solarized Dark
+background = #000000
 background-opacity = 1
 
 # --- Clipboard ---
@@ -32,3 +33,7 @@ bell-features = no-audio,no-system
 # --- Keybinds ---
 # kitty ctrl+f opened fzf over scrollback; closest native equivalent is search
 keybind = ctrl+f=start_search
+
+# --- Scrolling ---
+# Slow touchpad (precision) scrolling; mouse wheel (discrete) stays at default
+mouse-scroll-multiplier = precision:0.4,discrete:3

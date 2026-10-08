@@ -1,9 +1,10 @@
-# Linux already ships the GNU userland; everything below is macOS + Homebrew only.
-if [[ "$OSTYPE" != darwin* ]]; then
-  alias ll='ls -lAFhrtv --color=auto --group-directories-first'
-else
+# eza equivalent of `ls -lAFhrtv --color=auto --group-directories-first`:
+# eza -a already hides . and .., sizes are human-readable by default (eza -h
+# is --header), and -s modified sorts oldest-first like ls -tr.
+alias ll='eza -lagF=always -s modified --color=auto --group-directories-first'
 
-alias ll='gls -lAFhrtv --color=auto --group-directories-first'
+# Linux already ships the GNU userland; everything below is macOS + Homebrew only.
+if [[ "$OSTYPE" == darwin* ]]; then
 
 # GNU coreutils/findutils/etc: prepend each package's "gnubin" dir so the
 # unprefixed command name (cat, cp, sort, find, xargs, sed, grep, awk,
