@@ -11,6 +11,8 @@ font-size = 12
 # --- Theme: Solarized Dark (matches eza, starship, nvim, k9s) ---
 theme = iTerm2 Solarized Dark
 background = #000000
+# One step past Solarized base1 (#93a1a1), same step size as base0 -> base1
+foreground = #a3aeae
 background-opacity = 1
 
 # --- Clipboard ---
