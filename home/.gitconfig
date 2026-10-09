@@ -9,7 +9,8 @@
 [credential]
 	helper = store
 [user]
-	name = Ran Rao
+	name = garfnon
+	email = garfnon@garf.me
 [diff]
 	tool = meld
 	colorMoved = zebra
