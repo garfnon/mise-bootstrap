@@ -1,0 +1,5 @@
+# Linuxbrew packages for Debian/Ubuntu, applied by `mise run brew` after the
+# Aptfile. Only for things apt and mise can't provide (or ship too old) --
+# the GNU userland and casks in the macOS Brewfile don't belong here.
+#
+# Regenerate the formula list with:  brew leaves

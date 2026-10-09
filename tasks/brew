@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#MISE description="Install system packages: the Brewfile on macOS, the Aptfile on Debian/Ubuntu"
+#MISE description="Install system packages: the Brewfile on macOS, the Aptfile + Brewfile.linux on Debian/Ubuntu"
 source "$(dirname "$0")/lib.sh"
 
 if is_linux; then
@@ -18,21 +18,22 @@ if is_linux; then
     curl -fsSL https://starship.rs/install.sh | sh -s -- --yes --bin-dir "$HOME/.local/bin" >/dev/null
     ok "starship -> ~/.local/bin"
   fi
-  exit 0
-fi
 
-if ! have brew; then
+  # Homebrew is installed by bootstrap.sh; it can't be installed as root, so it's optional here
+  [ -x /home/linuxbrew/.linuxbrew/bin/brew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  have brew || { skip "Brewfile.linux (Homebrew not installed)"; exit 0; }
+elif ! have brew; then
   info "Installing Homebrew"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-info "brew bundle"
-brew bundle --file="$ROOT/Brewfile" --no-lock
-ok "Brewfile applied"
+info "brew bundle ($(basename "$BREWFILE"))"
+brew bundle --file="$BREWFILE" --no-lock
+ok "$(basename "$BREWFILE") applied"
 
-info "Drift check (installed leaves not in Brewfile)"
+info "Drift check (installed leaves not in $(basename "$BREWFILE"))"
 comm -13 \
-  <(grep -oE '^brew "[^"]+"' "$ROOT/Brewfile" | cut -d'"' -f2 | sort) \
-  <(brew leaves | sort) | while read -r p; do warn "$p installed but not in Brewfile"; done
+  <(grep -oE '^brew "[^"]+"' "$BREWFILE" | cut -d'"' -f2 | sort) \
+  <(brew leaves | sort) | while read -r p; do warn "$p installed but not in $(basename "$BREWFILE")"; done
 exit 0

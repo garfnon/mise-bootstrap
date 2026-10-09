@@ -28,3 +28,6 @@ is_linux() { [ "$(uname -s)" = Linux ]; }
 
 # sudo only when not already root (containers, fresh VMs)
 as_root() { if [ "$(id -u)" -eq 0 ]; then "$@"; else sudo "$@"; fi; }
+
+# the Brewfile for this OS -- macOS and Linux keep separate package lists
+if is_linux; then BREWFILE="$ROOT/Brewfile.linux"; else BREWFILE="$ROOT/Brewfile"; fi

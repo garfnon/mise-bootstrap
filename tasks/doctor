@@ -24,11 +24,12 @@ missing="$(mise ls --missing 2>/dev/null | wc -l | tr -d ' ')"
 info "Homebrew drift"
 if have brew; then
   d=0
-  while read -r p; do warn "$p installed, not in Brewfile"; d=1; done < <(comm -13 \
-    <(grep -oE '^brew "[^"]+"' "$ROOT/Brewfile" | cut -d'"' -f2 | sort) <(brew leaves | sort))
-  while read -r p; do warn "$p in Brewfile, not installed"; d=1; done < <(comm -23 \
-    <(grep -oE '^brew "[^"]+"' "$ROOT/Brewfile" | cut -d'"' -f2 | sort) <(brew leaves | sort))
-  [ "$d" -eq 0 ] && ok "Brewfile matches installed leaves"
+  bf="$(basename "$BREWFILE")"
+  while read -r p; do warn "$p installed, not in $bf"; d=1; done < <(comm -13 \
+    <(grep -oE '^brew "[^"]+"' "$BREWFILE" | cut -d'"' -f2 | sort) <(brew leaves | sort))
+  while read -r p; do warn "$p in $bf, not installed"; d=1; done < <(comm -23 \
+    <(grep -oE '^brew "[^"]+"' "$BREWFILE" | cut -d'"' -f2 | sort) <(brew leaves | sort))
+  [ "$d" -eq 0 ] && ok "$bf matches installed leaves"
 fi
 
 info "Shell"

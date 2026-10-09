@@ -18,7 +18,7 @@ mise tasks                    # list everything
 mise run bootstrap            # full run (idempotent)
 mise run doctor               # verify current state
 mise run link                 # re-link dotfiles after adding a file to home/
-mise run snapshot             # pull package drift back into the Brewfile
+mise run snapshot             # pull package drift back into this OS's Brewfile
 ```
 
 ## How the pieces divide
@@ -30,7 +30,8 @@ So the split is by what each tool is actually good at:
 | | lives in | why |
 |---|---|---|
 | language runtimes, single-binary CLIs (kubectl, terraform, helm, node, nvim, tmux) | `home/.config/mise/config.toml` | versioned, per-project overridable, no compile step |
-| GNU userland, compiled/system-linked tools, casks (gnu-sed, coreutils, docker, ykman) | `Brewfile` | mise has no backend for these |
+| GNU userland, compiled/system-linked tools, casks (gnu-sed, coreutils, docker, ykman) | `Brewfile` (macOS) | mise has no backend for these |
+| system packages on Debian/Ubuntu | `Aptfile`, then `Brewfile.linux` for anything apt lacks | Linux already has the GNU userland; no casks |
 
 Three deliberate exceptions are documented inline in `home/.config/mise/config.toml`:
 `upx`, `make` and `coreutils` stay on brew.
@@ -44,7 +45,9 @@ Three deliberate exceptions are documented inline in `home/.config/mise/config.t
 
 ```
 mise.toml                 task orchestrator (tasks only — no [tools])
-Brewfile                  packages mise can't provide
+Brewfile                  packages mise can't provide (macOS)
+Brewfile.linux            Linuxbrew packages apt and mise can't provide
+Aptfile                   Debian/Ubuntu system packages
 bootstrap.sh              fresh-machine entry point
 home/                     mirrored into $HOME as symlinks by `mise run link`
   .zshrc ...              shell (Starship prompt; oh-my-zsh for plugins only)
