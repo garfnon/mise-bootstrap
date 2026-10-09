@@ -8,7 +8,8 @@ Reproducible macOS environment, orchestrated by [mise](https://mise.jdx.dev).
 curl -fsSL https://raw.githubusercontent.com/garfnon/mise-bootstrap/main/bootstrap.sh | bash
 ```
 
-That installs Xcode CLT → Homebrew → mise, clones this repo, then runs `mise run bootstrap`.
+That installs Xcode CLT → Homebrew → mise on macOS (base apt packages → Homebrew → mise
+on Debian/Ubuntu), clones this repo, then runs `mise run bootstrap`.
 
 ## Day to day
 

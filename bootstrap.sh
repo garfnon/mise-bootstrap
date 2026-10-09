@@ -32,12 +32,23 @@ case "$(uname -s)" in
   Linux)
     command -v apt-get >/dev/null 2>&1 || { echo "only Debian/Ubuntu (apt) is supported on Linux" >&2; exit 1; }
 
-    # 1. git, curl and a compiler -- the rest of the apt list is in tasks/brew
+    # 1. git, curl and a compiler (plus procps/file for Homebrew) -- the rest of the apt list is in tasks/brew
     echo "==> Installing base packages"
     as_root apt-get update -qq
-    as_root env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git curl ca-certificates build-essential
+    as_root env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git curl ca-certificates build-essential procps file
 
-    # 2. mise -- its own installer, into ~/.local/bin (no Homebrew on Linux)
+    # 2. Homebrew -- into /home/linuxbrew/.linuxbrew; it refuses to install as root
+    if ! command -v brew >/dev/null 2>&1 && [ ! -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+      if [ "$(id -u)" -eq 0 ]; then
+        echo "==> Skipping Homebrew (cannot install as root)" >&2
+      else
+        echo "==> Installing Homebrew"
+        NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      fi
+    fi
+    [ -x /home/linuxbrew/.linuxbrew/bin/brew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+    # 3. mise -- its own installer, into ~/.local/bin
     export PATH="$HOME/.local/bin:$PATH"
     command -v mise >/dev/null 2>&1 || { echo "==> Installing mise"; curl -fsSL https://mise.run | sh; }
     ;;
