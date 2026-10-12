@@ -1,9 +1,14 @@
 # Ported from ~/.config/kitty/kitty.conf
 
 # --- Font ---
-font-family = FiraCode Nerd Font Mono
+font-family = Ioskeley Mono Term
 # Trying JetBrains Mono: it is Ghostty's bundled default, so no font-family is needed
-font-size = 12
+font-size = 16
+# Trying the Semi-Condensed width (was: regular / medium, italics unset)
+font-style = Semi-Condensed
+font-style-bold = Medium Semi-Condensed
+font-style-italic = Semi-Condensed Italic
+font-style-bold-italic = Medium Semi-Condensed Italic
 # Nerd Font icons from the non-Mono font so they render full size (kitty symbol_map)
 # font-codepoint-map = U+E000-U+F8FF,U+F0000-U+F1AFF=FiraCode Nerd Font
 # Ligatures are on by default (kitty: disable_ligatures never)
@@ -13,7 +18,7 @@ theme = iTerm2 Solarized Dark
 background = #000000
 # One step past Solarized base1 (#93a1a1), same step size as base0 -> base1
 foreground = #a3aeae
-background-opacity = 1
+background-opacity = 0.8
 
 # --- Clipboard ---
 copy-on-select = clipboard
