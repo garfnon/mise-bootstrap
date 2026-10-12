@@ -1,7 +1,8 @@
-# eza equivalent of `ls -lAFhrtv --color=auto --group-directories-first`:
+# eza equivalent of `ls -lAFhv --color=auto --group-directories-first`:
 # eza -a already hides . and .., sizes are human-readable by default (eza -h
-# is --header), and -s modified sorts oldest-first like ls -tr.
-alias ll='eza -lagF=always -s modified --color=auto --group-directories-first'
+# is --header), and the default name sort puts dot-prefixed entries first
+# within each group (directories, then files).
+alias ll='eza -lagF=always --color=auto --icons=auto --group-directories-first'
 
 # Linux already ships the GNU userland; everything below is macOS + Homebrew only.
 if [[ "$OSTYPE" == darwin* ]]; then

@@ -3,3 +3,7 @@
 # the GNU userland and casks in the macOS Brewfile don't belong here.
 #
 # Regenerate the formula list with:  brew leaves
+
+# misc CLI
+brew "eza"         # `ll` alias; not packaged on older Debian/Ubuntu releases
+brew "fastfetch"   # not packaged on older Debian/Ubuntu releases

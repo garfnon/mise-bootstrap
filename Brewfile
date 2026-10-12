@@ -35,6 +35,8 @@ brew "gpatch"
 
 # shells & misc CLI
 brew "bash"        # zsh is the login shell; this is bash 5.x for scripts
+brew "eza"         # `ll` alias; no macOS release binaries, so not in mise
+brew "fastfetch"
 brew "starship"    # zsh prompt; oh-my-zsh is only used for plugins
 brew "tree"
 brew "upx"        # no darwin/arm64 build in mise's aqua package
