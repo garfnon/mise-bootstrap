@@ -28,7 +28,7 @@ HISTSIZE=1000000
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
-plugins=(alias-finder direnv docker docker-compose fzf git gitfast helm httpie kubectl sudo z zsh-autosuggestions zsh-completions zsh-syntax-highlighting)
+plugins=(alias-finder direnv docker docker-compose fzf git gitfast helm httpie kubectl sudo zoxide zsh-autosuggestions zsh-completions zsh-syntax-highlighting)
 
 # Turn on Alias-finder
 ZSH_ALIAS_FINDER_AUTOMATIC=true
@@ -43,7 +43,7 @@ if [[ -d "$HOME/.omz/custom/plugins/custom-completions" ]]; then
   export FPATH=$FPATH:$HOME/.omz/custom/plugins/custom-completions/
 fi
 
-# mise-installed tools (fzf, direnv) must be on PATH before the plugins above
+# mise-installed tools (kubectl, helm) must be on PATH before the plugins above
 # load; full `mise activate` happens later via ~/.zsh_custom_exports/mise
 [[ -d "$HOME/.local/share/mise/shims" ]] && export PATH="$HOME/.local/share/mise/shims:$PATH"
 

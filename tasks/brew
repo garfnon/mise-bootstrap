@@ -29,7 +29,7 @@ elif ! have brew; then
 fi
 
 info "brew bundle ($(basename "$BREWFILE"))"
-brew bundle --file="$BREWFILE" --no-lock
+brew bundle --file="$BREWFILE"
 ok "$(basename "$BREWFILE") applied"
 
 info "Drift check (installed leaves not in $(basename "$BREWFILE"))"

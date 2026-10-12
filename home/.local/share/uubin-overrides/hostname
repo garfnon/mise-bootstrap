@@ -1,0 +1,9 @@
+#!/bin/sh
+# uutils-coreutils ships this command but Homebrew's GNU coreutils never did,
+# so keep the system's own: macOS `arch -x86_64 cmd` has no uutils equivalent,
+# and hostname/kill/more/uptime belong to other packages on Linux.
+for d in /usr/bin /bin /usr/sbin /sbin; do
+  [ -x "$d/${0##*/}" ] && exec "$d/${0##*/}" "$@"
+done
+echo "${0##*/}: no system binary found" >&2
+exit 127

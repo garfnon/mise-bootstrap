@@ -18,8 +18,8 @@ alias icat="kitten icat"
 alias kdif="kitten diff"
 
 # Git aliases
-# git count lines of code
-alias gcloc="git ls-files | xargs cloc"
+# git count lines of code (tokei skips .gitignore'd files on its own)
+alias gcloc="tokei"
 # git pull children of current directory with 5 subprocesses
 alias gpc="find . -mindepth 1 -maxdepth 1 -type d | xargs -P5 -I{} git -C {} pull"
 
@@ -48,8 +48,8 @@ if alias ksd &>/dev/null; then unalias ksd; fi
 # pulumi
 alias pp=pulumi
 
-# Fix watch usage with aliases
-alias watch="watch "
+# viddy as watch; the trailing space lets the watched command be an alias too
+alias watch="viddy "
 
 # AWS Helpers
 alias aws_clusters="aws eks list-clusters | jq -r '.[][]'"

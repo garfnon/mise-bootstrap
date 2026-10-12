@@ -1,15 +1,27 @@
 #!/usr/bin/env bash
 #MISE description="Sync Neovim plugins from the committed lazy-lock.json"
-#MISE depends=["link", "tools"]
+#MISE depends=["link", "brew"]
 source "$(dirname "$0")/lib.sh"
 
 # `mise run bootstrap` resolves PATH before `link` puts the global config in
 # place, so on a fresh machine tools installed this run aren't on it yet.
 eval "$(mise env -s bash)"
 
-have nvim || die "nvim not on PATH -- run 'mise run tools' first"
+have nvim || die "nvim not on PATH -- run 'mise run brew' first"
 
 info "nvim $(nvim --version | head -1 | awk '{print $2}')"
+# lazy.lua only clones lazy.nvim when it's missing, so a leftover copy from an
+# older setup survives -- and LazyVim fails to load on an old lazy.nvim before
+# `Lazy! restore` can fix it. Pin lazy.nvim to the lockfile commit first.
+lazy_dir="${XDG_DATA_HOME:-$HOME/.local/share}/nvim/lazy/lazy.nvim"
+lazy_commit=$(grep -o '"lazy.nvim": {[^}]*' "$HOME_SRC/.config/nvim/lazy-lock.json" | grep -oE '[0-9a-f]{40}')
+if [ -d "$lazy_dir/.git" ] && [ "$(git -C "$lazy_dir" rev-parse HEAD)" != "$lazy_commit" ]; then
+  info "Pinning lazy.nvim to ${lazy_commit:0:7}"
+  git -C "$lazy_dir" fetch -q origin
+  git -C "$lazy_dir" checkout -q "$lazy_commit"
+  ok "lazy.nvim -> ${lazy_commit:0:7}"
+fi
+
 info "Restoring plugins from lazy-lock.json"
 nvim --headless "+Lazy! restore" +qa
 ok "plugins restored"
