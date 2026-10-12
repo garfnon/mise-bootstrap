@@ -3,6 +3,7 @@
 # is --header), and the default name sort puts dot-prefixed entries first
 # within each group (directories, then files).
 alias ll='eza -lagF=always --color=auto --icons=auto --group-directories-first'
+alias tree='eza -T'
 
 # uutils coreutils and findutils (Rust) under the normal command names (ls, cp,
 # sort, find, xargs, ...) on both OSes: Homebrew installs them uu-prefixed and

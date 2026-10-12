@@ -16,7 +16,6 @@ build-essential   # nvim-treesitter compiles parsers
 fontconfig
 
 # misc CLI
-tree
 wget
 
 # ssh & gpg

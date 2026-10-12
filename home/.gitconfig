@@ -6,6 +6,11 @@
 	excludesfile = ~/.gitignore
 	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
 	trustctime = false
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
 [credential]
 	helper = store
 [user]
