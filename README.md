@@ -30,8 +30,8 @@ So the split is by what each tool is actually good at:
 | | lives in | why |
 |---|---|---|
 | language runtimes, single-binary CLIs (kubectl, terraform, helm, node, nvim, tmux) | `home/.config/mise/config.toml` | versioned, per-project overridable, no compile step |
-| GNU userland, compiled/system-linked tools, casks (gnu-sed, coreutils, docker, ykman) | `Brewfile` (macOS) | mise has no backend for these |
-| system packages on Debian/Ubuntu | `Aptfile`, then `Brewfile.linux` for anything apt lacks | Linux already has the GNU userland; no casks |
+| uutils coreutils/findutils, GNU userland, compiled/system-linked tools, casks (uutils-coreutils, gnu-sed, docker, ykman) | `Brewfile` (macOS) | mise has no backend for these |
+| system packages on Debian/Ubuntu | `Aptfile`, then `Brewfile.linux` for anything apt lacks | Linux already has the GNU userland; uutils coreutils/findutils come from brew until the distro ships them; no casks |
 
 Three deliberate exceptions are documented inline in `home/.config/mise/config.toml`:
 `upx`, `make` and `coreutils` stay on brew.

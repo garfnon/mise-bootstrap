@@ -7,3 +7,9 @@
 # misc CLI
 brew "eza"         # `ll` alias; not packaged on older Debian/Ubuntu releases
 brew "fastfetch"   # not packaged on older Debian/Ubuntu releases
+
+# coreutils and findutils, Rust rewrites -- same as the macOS Brewfile. Each is
+# skipped once the distro's own is already uutils (Ubuntu 25.10+ bases ship
+# uutils coreutils); Zorin 18 still ships GNU for both.
+brew "uutils-coreutils" unless `/usr/bin/ls --version 2>/dev/null`.include?("uutils")
+brew "uutils-findutils" unless `/usr/bin/find --version 2>/dev/null`.include?("(Rust)")

@@ -1,7 +1,7 @@
 # Global mise config. Managed by ~/git/bootstrap -- edit there, then `mise run link`.
 #
 # Everything here is installed by mise's own backends (aqua/ubi/github/pypi/...),
-# NOT by Homebrew. Things mise cannot provide -- the GNU userland, docker, ykman,
+# NOT by Homebrew. Things mise cannot provide -- the GNU/uutils userland, docker, ykman,
 # casks -- live in the Brewfile alongside this repo.
 
 [tools]
@@ -39,6 +39,7 @@ yamllint = "1.38.0" # pypi:yamllint (needs uv above)
 #                darwin/arm64 build. Stays on brew, which compiles it.
 #   make      -> only backend is conda:make, which drags a conda toolchain in for
 #                GNU make. Left on brew. Flip it here if you'd rather pay that cost.
-#   coreutils -> mise's entry is aqua:uutils/coreutils, the Rust rewrite. Flag
-#                compatibility differs from GNU coreutils, which your shell
-#                functions assume. Left on brew.
+#   coreutils -> uutils (the Rust rewrite) is what's installed, but from brew:
+#                mise's aqua:uutils/coreutils is the single multicall binary,
+#                while the uutils-coreutils formula also provides a uubin dir
+#                with every command under its normal name.

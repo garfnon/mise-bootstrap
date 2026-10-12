@@ -27,8 +27,9 @@ if have brew; then
   bf="$(basename "$BREWFILE")"
   while read -r p; do warn "$p installed, not in $bf"; d=1; done < <(comm -13 \
     <(grep -oE '^brew "[^"]+"' "$BREWFILE" | cut -d'"' -f2 | sort) <(brew leaves | sort))
+  # brew bundle list evaluates the Brewfile, so conditional entries count only when they apply
   while read -r p; do warn "$p in $bf, not installed"; d=1; done < <(comm -23 \
-    <(grep -oE '^brew "[^"]+"' "$BREWFILE" | cut -d'"' -f2 | sort) <(brew leaves | sort))
+    <(brew bundle list --formula --file="$BREWFILE" 2>/dev/null | sort) <(brew leaves | sort))
   [ "$d" -eq 0 ] && ok "$bf matches installed leaves"
 fi
 

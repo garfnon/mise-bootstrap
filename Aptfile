@@ -1,6 +1,7 @@
 # Debian/Ubuntu counterpart of the Brewfile, applied by `mise run brew` on Linux.
 # One package per line. Linux already ships the GNU userland, so none of the
-# Brewfile's GNU section is needed here. Starship is not packaged on older
+# Brewfile's GNU section is needed here (uutils coreutils and findutils are in
+# Brewfile.linux: apt's rust-coreutils is too old on Ubuntu 24.04 bases). Starship is not packaged on older
 # Debian/Ubuntu releases; tasks/brew installs it with its own installer.
 
 # shell & basics

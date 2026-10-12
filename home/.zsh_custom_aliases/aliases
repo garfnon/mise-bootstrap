@@ -4,15 +4,24 @@
 # within each group (directories, then files).
 alias ll='eza -lagF=always --color=auto --icons=auto --group-directories-first'
 
-# Linux already ships the GNU userland; everything below is macOS + Homebrew only.
+# uutils coreutils and findutils (Rust) under the normal command names (ls, cp,
+# sort, find, xargs, ...) on both OSes: Homebrew installs them uu-prefixed and
+# keeps the unprefixed names in a "uubin" dir per package. uubin-overrides sits
+# in front for the few commands uutils ships that GNU coreutils never shadowed
+# (arch, hostname, kill, more, uptime), so those stay the system's own.
+_uubins=({/opt/homebrew,/home/linuxbrew/.linuxbrew}/opt/uutils-{coreutils,findutils}/libexec/uubin(N/))
+(( $#_uubins )) && export PATH="$HOME/.local/share/uubin-overrides:${(j.:.)_uubins}:$PATH"
+unset _uubins
+
+# Linux already ships the rest of the GNU userland; everything below is macOS + Homebrew only.
 if [[ "$OSTYPE" == darwin* ]]; then
 
-# GNU coreutils/findutils/etc: prepend each package's "gnubin" dir so the
-# unprefixed command name (cat, cp, sort, find, xargs, sed, grep, awk,
+# GNU sed/grep/awk/etc: prepend each package's "gnubin" dir so the
+# unprefixed command name (sed, grep, awk, tar,
 # which, indent, patch, make, ...) resolves to the GNU version instead of
-# the BSD/macOS one. The original g-prefixed binaries (gls, gsed, ggrep,
+# the BSD/macOS one. The original g-prefixed binaries (gsed, ggrep, gawk,
 # ...) stay available too, since gnubin is only added, not swapped in.
-export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:/opt/homebrew/opt/findutils/libexec/gnubin:/opt/homebrew/opt/gnu-sed/libexec/gnubin:/opt/homebrew/opt/grep/libexec/gnubin:/opt/homebrew/opt/gawk/libexec/gnubin:/opt/homebrew/opt/gnu-tar/libexec/gnubin:/opt/homebrew/opt/gnu-which/libexec/gnubin:/opt/homebrew/opt/gnu-indent/libexec/gnubin:/opt/homebrew/opt/gpatch/libexec/gnubin:/opt/homebrew/opt/make/libexec/gnubin:$PATH"
+export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:/opt/homebrew/opt/grep/libexec/gnubin:/opt/homebrew/opt/gawk/libexec/gnubin:/opt/homebrew/opt/gnu-tar/libexec/gnubin:/opt/homebrew/opt/gnu-which/libexec/gnubin:/opt/homebrew/opt/gnu-indent/libexec/gnubin:/opt/homebrew/opt/gpatch/libexec/gnubin:/opt/homebrew/opt/make/libexec/gnubin:$PATH"
 
 # zsh has its own `which` builtin, which takes precedence over PATH
 # lookups, so the gnubin entry above alone doesn't make plain `which`

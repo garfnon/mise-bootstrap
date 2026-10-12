@@ -1,4 +1,4 @@
-# Homebrew packages that mise cannot provide: the GNU userland on macOS,
+# Homebrew packages that mise cannot provide: the GNU/uutils userland on macOS,
 # compiled/system-linked tools, and GUI apps. Language runtimes and
 # single-binary CLI tools live in home/.config/mise/config.toml instead.
 #
@@ -7,11 +7,15 @@
 # mise itself -- bootstraps everything else
 brew "mise"
 
+# coreutils and findutils, Rust rewrites -- replace the GNU ones; the unprefixed
+# names come from their uubin dirs, put on PATH in home/.zsh_custom_aliases/aliases.
+# diffutils stays GNU: uutils-diffutils has no diff -r/-i/-w/--color, diff3 or sdiff.
+brew "uutils-coreutils"
+brew "uutils-findutils"
+
 # GNU userland (macOS ships BSD variants; the shell functions assume GNU flags)
-brew "coreutils"
 brew "binutils"
 brew "diffutils"
-brew "findutils"
 brew "gawk"
 brew "gnu-indent"
 brew "gnu-sed"
