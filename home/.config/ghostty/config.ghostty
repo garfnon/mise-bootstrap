@@ -3,7 +3,7 @@
 # --- Font ---
 font-family = Ioskeley Mono Term
 # Trying JetBrains Mono: it is Ghostty's bundled default, so no font-family is needed
-font-size = 16
+font-size = 15
 # Trying the Semi-Condensed width (was: regular / medium, italics unset)
 font-style = Semi-Condensed
 font-style-bold = Medium Semi-Condensed

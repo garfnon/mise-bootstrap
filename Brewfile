@@ -27,7 +27,6 @@ brew "gzip"
 brew "ed"
 brew "less"
 brew "make"        # GNU make 4.x; macOS ships 3.81
-brew "nano"
 brew "screen"
 brew "watch"
 brew "wdiff"
