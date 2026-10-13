@@ -32,8 +32,8 @@ matters:
 | everything else: general CLI tools (ripgrep, fzf, neovim, tmux, k9s), uutils coreutils/findutils, GNU userland, casks | `Brewfile` (macOS) | always the latest release; nothing to bump by hand |
 | system packages on Debian/Ubuntu | `Aptfile`, then `Brewfile.linux` for the same CLI tools as macOS | Linux already has the GNU userland; uutils coreutils/findutils come from brew until the distro ships them; no casks |
 
-One exception is documented inline in `home/.config/mise/config.toml`: `kail`
-has no Homebrew formula, so it stays on mise.
+`kail` comes from the third-party `boz/repo` Homebrew tap (declared in both
+Brewfiles), since it isn't version-sensitive.
 
 > **When adding a tool,** ask whether a version mismatch would break something
 > (a cluster, a state file, a project's lockfile). If yes, it goes in mise. If
