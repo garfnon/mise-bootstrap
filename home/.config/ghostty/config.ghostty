@@ -13,11 +13,9 @@ font-style-bold-italic = Medium Semi-Condensed Italic
 # font-codepoint-map = U+E000-U+F8FF,U+F0000-U+F1AFF=FiraCode Nerd Font
 # Ligatures are on by default (kitty: disable_ligatures never)
 
-# --- Theme: Solarized Dark (matches eza, starship, nvim, k9s) ---
-theme = iTerm2 Solarized Dark
-background = #000000
-# One step past Solarized base1 (#93a1a1), same step size as base0 -> base1
-foreground = #a3aeae
+# --- Theme: Synthwave (built-in; eza inherits this palette) ---
+# starship follows this palette too; k9s is still Solarized Dark; nvim uses molokai
+theme = Synthwave
 background-opacity = 0.8
 
 # --- Clipboard ---
