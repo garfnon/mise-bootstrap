@@ -39,28 +39,34 @@ brew "flex"
 brew "gpatch"
 
 # shells & misc
-brew "bash"        # zsh is the login shell; this is bash 5.x for scripts
 brew "starship"    # zsh prompt; oh-my-zsh is only used for plugins
 brew "upx"
 brew "wget"
 
 # CLI tools -- keep in sync with Brewfile.linux
+brew "azure-cli"      # az
 brew "bat"            # cat with syntax highlighting
 brew "bitwarden-cli"  # bw
 brew "bottom"         # btm
 brew "direnv"
 brew "dust"           # du
+# Disabled in Homebrew (unmaintained upstream since 2025-06), so a fresh install fails;
+# kept only while already installed, for the Earthfile projects that still use it.
+brew "earthly" if File.exist?("#{HOMEBREW_PREFIX}/bin/earthly")
 brew "eza"            # `ll` alias
 brew "fastfetch"
 brew "fd"             # find
 brew "fzf"
 brew "git-delta"      # git pager, see home/.gitconfig
+brew "gnupg"          # Linux gets this from the Aptfile
 brew "jq"
 brew "k9s"
+brew "boz/repo/kail"  # multi-pod log tail; third-party tap, no homebrew-core formula
 brew "kind"
 brew "kubelogin"      # kubectl oidc-login
 brew "minikube"
 brew "ouch"           # compress/decompress any archive format
+brew "pre-commit"
 brew "neovim"
 brew "ripgrep"        # rg
 brew "sd"             # sed
@@ -71,6 +77,7 @@ brew "tokei"          # `gcloc` alias
 brew "uv"
 brew "viddy"          # `watch` alias
 brew "yamllint"
+brew "yq"             # mikefarah's yq, used by the kbbcm alias
 brew "zoxide"         # `z`, via the oh-my-zsh plugin
 
 # hardware / daemons

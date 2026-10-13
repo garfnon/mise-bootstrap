@@ -13,8 +13,6 @@ istioctl = "1.31.0"
 kubectl = "1.37.0"
 kustomize = "5.8.1"
 node = "26.8.2"
+pulumi = "3.263.0"
 terraform = "1.16.2"
 terragrunt = "1.1.4"
-
-# Not version-sensitive, but there is no Homebrew formula for it.
-"github:boz/kail" = "0.17.4"
