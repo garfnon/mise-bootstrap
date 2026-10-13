@@ -12,9 +12,10 @@ info "Rebuilding $bf from installed leaves + casks"
   sed -n '1,/^# Regenerate/p' "$BREWFILE"
   echo
   brew leaves | sed 's/^/brew "/; s/$/"/'
-  if is_mac; then
+  casks="$(brew list --cask 2>/dev/null)"
+  if [ -n "$casks" ]; then
     echo
-    brew list --cask | sed 's/^/cask "/; s/$/"/'
+    sed 's/^/cask "/; s/$/"/' <<<"$casks"
   fi
 } > "$BREWFILE.new"
 mv "$BREWFILE.new" "$BREWFILE"

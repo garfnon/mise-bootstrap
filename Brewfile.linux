@@ -1,12 +1,11 @@
 # Linuxbrew packages for Debian/Ubuntu, applied by `mise run brew` after the
 # Aptfile. Same split as macOS: everything except the version-pinned tools in
 # home/.config/mise/config.toml, minus what the Aptfile already covers -- the
-# GNU userland and casks in the macOS Brewfile don't belong here.
+# GNU userland and GUI casks in the macOS Brewfile don't belong here.
 #
-# Regenerate the formula list with:  brew leaves
+# Regenerate the formula list with:  brew leaves  (and casks: brew list --cask)
 
 # CLI tools -- keep in sync with the macOS Brewfile
-brew "azure-cli"      # az
 brew "bat"            # cat with syntax highlighting
 brew "bitwarden-cli"  # bw
 brew "bottom"         # btm
@@ -46,3 +45,6 @@ brew "zoxide"         # `z`, via the oh-my-zsh plugin
 # uutils coreutils); Zorin 18 still ships GNU for both.
 brew "uutils-coreutils" unless `/usr/bin/ls --version 2>/dev/null`.include?("uutils")
 brew "uutils-findutils" unless `/usr/bin/find --version 2>/dev/null`.include?("(Rust)")
+
+# Casks -- Homebrew moved azure-cli from homebrew/core to a cask (it ships a Linux build)
+cask "azure-cli"      # az

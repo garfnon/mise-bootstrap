@@ -44,7 +44,6 @@ brew "upx"
 brew "wget"
 
 # CLI tools -- keep in sync with Brewfile.linux
-brew "azure-cli"      # az
 brew "bat"            # cat with syntax highlighting
 brew "bitwarden-cli"  # bw
 brew "bottom"         # btm
@@ -86,3 +85,5 @@ brew "ykman"
 
 cask "bentobox"
 cask "bettermouse"
+cask "azure-cli"      # az
+
