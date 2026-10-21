@@ -2,7 +2,7 @@
 # eza -a already hides . and .., sizes are human-readable by default (eza -h
 # is --header), and the default name sort puts dot-prefixed entries first
 # within each group (directories, then files).
-alias ll='eza -lagF=always --color=auto --icons=auto --group-directories-first'
+alias ll='eza -lagF=always --color=auto --icons=auto --group-directories-first --time-style long-iso'
 alias tree='eza -T'
 
 # uutils coreutils and findutils (Rust) under the normal command names (ls, cp,

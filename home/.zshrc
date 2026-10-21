@@ -50,6 +50,9 @@ fi
 # Source Oh-My-Zsh
 source $ZSH/oh-my-zsh.sh
 
+# zsh-syntax-highlighting draws comments in fg=black, which disappears on a near-black background
+ZSH_HIGHLIGHT_STYLES[comment]='fg=8'
+
 # Source additional Zsh config files
 source $HOME/.zsh_functions
 source $HOME/.zsh_aliases

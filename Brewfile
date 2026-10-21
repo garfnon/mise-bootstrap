@@ -85,4 +85,5 @@ brew "ykman"
 cask "bentobox"
 cask "bettermouse"
 cask "azure-cli"      # az
-
+cask "ghostty"
+cask "kitty"

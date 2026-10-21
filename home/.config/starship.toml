@@ -64,7 +64,7 @@ right_format = """$time"""
 
 [directory]
 style = "bold cyan"
-format = "[ $path ]($style)"
+format = "[  $path ]($style)"
 truncation_length = 3
 # Count from the cwd, not the repo root, so three levels show inside git repos too
 truncate_to_repo = false

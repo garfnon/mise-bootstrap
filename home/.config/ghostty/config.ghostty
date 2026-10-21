@@ -1,21 +1,20 @@
 # Ported from ~/.config/kitty/kitty.conf
 
 # --- Font ---
-font-family = Ioskeley Mono Term
-# Trying JetBrains Mono: it is Ghostty's bundled default, so no font-family is needed
+font-family = Berkeley Mono
+#font-family = Ioskeley Mono Term
 font-size = 15
-# Trying the Semi-Condensed width (was: regular / medium, italics unset)
-font-style = Semi-Condensed
-font-style-bold = Medium Semi-Condensed
-font-style-italic = Semi-Condensed Italic
-font-style-bold-italic = Medium Semi-Condensed Italic
+font-style = Retina SemiCondensed
+font-style-bold = Bold SemiCondensed
+font-style-italic = Retina SemiCondensed Oblique
+font-style-bold-italic = Bold SemiCondensed Oblique
 # Nerd Font icons from the non-Mono font so they render full size (kitty symbol_map)
 # font-codepoint-map = U+E000-U+F8FF,U+F0000-U+F1AFF=FiraCode Nerd Font
 # Ligatures are on by default (kitty: disable_ligatures never)
 
-# --- Theme: Synthwave (built-in; eza inherits this palette) ---
-# starship follows this palette too; k9s is still Solarized Dark; nvim uses molokai
-theme = Synthwave
+# --- Theme: Solarized Osaka, same palette as kitty (themes/solarized-osaka) ---
+# eza and starship follow this palette; nvim uses solarized-osaka.nvim with a transparent background
+theme = solarized-osaka
 background-opacity = 0.8
 
 # --- Clipboard ---
