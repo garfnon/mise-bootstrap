@@ -4,7 +4,7 @@
 # lives at home/.config/mise/config.toml and is symlinked to ~/.config/mise/config.toml
 # by the `link` task.
 
-min_version = "2025.1.0"
+min_version = "2025.10.17"
 
 [env]
 BOOTSTRAP_ROOT = "{{ config_root }}"

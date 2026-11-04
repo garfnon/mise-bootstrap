@@ -14,8 +14,8 @@ font-style-bold-italic = Bold SemiCondensed Oblique
 
 # --- Theme: Solarized Osaka, same palette as kitty (themes/solarized-osaka) ---
 # eza and starship follow this palette; nvim uses solarized-osaka.nvim with a transparent background
-theme = solarized-osaka
-background-opacity = 0.8
+theme = cyberdream
+background-opacity = 1
 
 # --- Clipboard ---
 copy-on-select = clipboard

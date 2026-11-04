@@ -53,6 +53,9 @@ source $ZSH/oh-my-zsh.sh
 # zsh-syntax-highlighting draws comments in fg=black, which disappears on a near-black background
 ZSH_HIGHLIGHT_STYLES[comment]='fg=8'
 
+# zsh-autosuggestions: right arrow only moves the cursor; End / Ctrl-E accepts the suggestion
+ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(${ZSH_AUTOSUGGEST_ACCEPT_WIDGETS:#forward-char})
+
 # Source additional Zsh config files
 source $HOME/.zsh_functions
 source $HOME/.zsh_aliases
