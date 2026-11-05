@@ -5,8 +5,14 @@
 # with a local mise.toml), plus language runtimes. Everything else -- general CLI
 # tools, the GNU/uutils userland, casks -- is installed by Homebrew from the
 # Brewfile alongside this repo, which always tracks the latest release.
+#
+# Exception: terminals on Linux. Homebrew casks are macOS-only and apt lags behind,
+# so kitty and ghostty come from GitHub releases here (macOS uses the Brewfile casks).
+# Ghostty publishes no versioned Linux binaries; this is a third-party AppImage build.
 
 [tools]
+"github:kovidgoyal/kitty" = { version = "latest", asset_pattern = "kitty-*-x86_64.txz", os = ["linux"] }
+"github:pkgforge-dev/ghostty-appimage" = { version = "latest", asset_pattern = "*x86_64*.AppImage", bin = "ghostty", os = ["linux"] }
 go = "1.27.3"
 flux2 = "2.9.6"
 helm = "4.3.1"

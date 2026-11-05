@@ -43,6 +43,13 @@ if [[ -d "$HOME/.omz/custom/plugins/custom-completions" ]]; then
   export FPATH=$FPATH:$HOME/.omz/custom/plugins/custom-completions/
 fi
 
+# Homebrew tools (direnv, fzf, zoxide) must be on PATH before the plugins above
+# load. .zprofile only covers login shells; Linux terminals like Ptyxis start non-login ones.
+if (( ! $+commands[brew] )); then
+  [[ -x /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv zsh)"
+  [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
+fi
+
 # mise-installed tools (kubectl, helm) must be on PATH before the plugins above
 # load; full `mise activate` happens later via ~/.zsh_custom_exports/mise
 [[ -d "$HOME/.local/share/mise/shims" ]] && export PATH="$HOME/.local/share/mise/shims:$PATH"

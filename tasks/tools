@@ -7,3 +7,44 @@ info "Installing mise tools from ~/.config/mise/config.toml"
 mise install --yes
 ok "tools installed"
 mise ls --current --global 2>/dev/null || mise ls
+
+# mise doesn't register GUI apps, and the desktop session has no mise on PATH, so
+# install each terminal's bundled .desktop file with Exec pointing at the full path
+is_linux || exit 0
+
+info "Terminal launchers"
+apps="$HOME/.local/share/applications"
+icons="$HOME/.local/share/icons/hicolor/256x256/apps"
+mkdir -p "$apps" "$icons"
+
+# install_launcher <desktop file> <icon png> <binary>
+install_launcher() {
+  local name
+  name="$(basename "$1")"
+  sed -E "s|^TryExec=.*|TryExec=$3|; s|^Exec=[^ ]+|Exec=$3|" "$1" > "$apps/$name"
+  cp "$2" "$icons/$(basename "$2")"
+  ok "${name%.desktop}"
+}
+
+if kitty_bin="$(mise which kitty 2>/dev/null)"; then
+  kitty_root="$(dirname "$(dirname "$kitty_bin")")"
+  install_launcher "$kitty_root/share/applications/kitty.desktop" \
+    "$kitty_root/share/icons/hicolor/256x256/apps/kitty.png" "$kitty_bin"
+else
+  warn "kitty not installed -- skipping launcher"
+fi
+
+if ghostty_bin="$(mise which ghostty 2>/dev/null)"; then
+  # the AppImage carries its .desktop file and icon inside; unpack it to read them
+  tmp="$(mktemp -d)"
+  (cd "$tmp" && "$ghostty_bin" --appimage-extract >/dev/null)
+  install_launcher "$tmp/squashfs-root/com.mitchellh.ghostty.desktop" \
+    "$tmp/squashfs-root/com.mitchellh.ghostty.png" "$ghostty_bin"
+  rm -rf "$tmp"
+else
+  warn "ghostty not installed -- skipping launcher"
+fi
+
+have update-desktop-database && update-desktop-database -q "$apps"
+have gtk-update-icon-cache && gtk-update-icon-cache -q -f -t "$HOME/.local/share/icons/hicolor"
+exit 0
