@@ -57,6 +57,10 @@ fi
 # Source Oh-My-Zsh
 source $ZSH/oh-my-zsh.sh
 
+# terminal/tab title: just the directory, not oh-my-zsh's default "user@host:dir"
+# (termsupport sets it unconditionally, so this has to come after sourcing)
+ZSH_THEME_TERM_TITLE_IDLE="%~"
+
 # zsh-syntax-highlighting draws comments in fg=black, which disappears on a near-black background
 ZSH_HIGHLIGHT_STYLES[comment]='fg=8'
 
